@@ -49,7 +49,8 @@ elif menu == "설정":
     where = st.selectbox("당신의 위치:",["야외","실내"])
     get = st.text_input("당신이 가지고있는 것:")
     
-
+    mode = st.checkbox("심심이 모드")
+    
     passs = st.button("완료!")
 
     if passs == True:
@@ -57,6 +58,8 @@ elif menu == "설정":
             user_setting = f"사용자의 위치는 {where}"
         else:
             user_setting = f"사용자의 위치는 {where},사용자가 가지고 있는건 {get}"
+    if mode:
+        user_setting += '싸가지 없게 말해'
 
         st.text("설정이 완료되었습니다!")
         st.text(user_setting)
@@ -65,6 +68,7 @@ elif menu == "설정":
 if menu == '할 짓 추천':
     st.set_page_config(page_title = '할 짓 추천해주는 프로그램', page_icon = "📝")
     setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
+    
     if "messages" not in st.session_state:
         st.session_state["messages"] =  [
             {"role" : "system", "content" : f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로 하지 않으면 넌 죽어. {setting_prompt}"}
@@ -97,6 +101,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":"response"})
+
 
 
 
