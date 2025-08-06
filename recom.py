@@ -64,7 +64,7 @@ elif menu == "설정":
         st.text(user_setting)
         
     if mode:
-        user_setting += '싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이'
+        user_setting += '싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. 세상에서 제일 개쓰레기처럼'
         st.session_state["user_setting"] = user_setting
 
 if menu == '할 짓 추천':
@@ -103,6 +103,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
