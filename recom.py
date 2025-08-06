@@ -28,16 +28,14 @@ if menu == "홈":
     st.markdown('---')
     st.markdown("ai의 한마디")
     data = {
-    "model": "solar-1-mini-chat",  # 사용할 모델명
+    "model": "solar-1-mini-chat",
     "messages": [
         {"role": "user", "content": "할 짓 추천에 대한 사실에 한마디만 해줘 사나이같이!"}
         ]
     }
 
-    # API 호출
     response = requests.post(url, headers=headers, data=json.dumps(data))
 
-    # 결과 출력
     if response.status_code == 200:
         result = response.json()
         st.markdown(f"**{result['choices'][0]['message']['content']}**")
@@ -99,5 +97,6 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":"response"})
+
 
 
