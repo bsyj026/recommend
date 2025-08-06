@@ -57,14 +57,14 @@ elif menu == "설정":
         if get == "":
             user_setting = f"사용자의 위치는 {where}"
         else:
-            user_setting = f"사용자의 위치는 {where},사용자가 가지고 있는건 {get}"
+            user_setting = f"사용자의 위치는 {where}이고, 사용자가 가지고 있는건 {get}이다."
     
 
         st.text("설정이 완료되었습니다!")
         st.text(user_setting)
         
     if mode:
-        user_setting += '싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. 세상에서 제일 개쓰레기처럼'
+        user_setting += '싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. 세상에서 제일 개쓰레기처럼. 비꼬는 듯이. 세상 만사에 불만이 있는 씨발년처럼. 비속어를 섞어서'
         st.session_state["user_setting"] = user_setting
 
 if menu == '할 짓 추천':
@@ -73,7 +73,7 @@ if menu == '할 짓 추천':
     
     if "messages" not in st.session_state:
         st.session_state["messages"] =  [
-            {"role" : "system", "content" : f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 죽는 한이 있어도 4개 이하로. {setting_prompt}"}
+            {"role" : "system", "content" : f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로. {setting_prompt}"}
         ]
 
     for msg in st.session_state["messages"]:
@@ -103,6 +103,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
