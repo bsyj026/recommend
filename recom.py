@@ -51,7 +51,7 @@ elif menu == "설정":
     
     mode = st.checkbox("심심이 모드")
     
-    passs = st.button("완료(심약자 및 변태를 제외한 모든 일반인에게 추천되지 않다.)")
+    passs = st.button("완료(심약자 및 변태를 제외한 모든 일반인에게 추천되지 않는다.)")
 
     if passs == True:
         if get == "":
@@ -103,6 +103,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
