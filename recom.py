@@ -6,8 +6,7 @@ import json
 st.sidebar.title("메뉴")
 menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 user_setting = ""
-st.sidebar.markdown("<br><br><br><br><br> ")
-st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/768px-ChatGPT-Logo.svg.png", width = 10)
+
 
 where = "아무데나"
 get = ""
@@ -26,6 +25,7 @@ client = OpenAI(
 )
 
 if menu == "홈":
+    st.sidebar.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/768px-ChatGPT-Logo.svg.png", width = 25)
     st.header("홈 페이지")
     st.markdown('---')
     st.markdown("ai의 한마디")
@@ -105,6 +105,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
