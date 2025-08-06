@@ -3,6 +3,8 @@ from openai import OpenAI
 import requests
 import json
 
+
+st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/768px-ChatGPT-Logo.svg.png", caption="사실은 지피티 아님")
 st.sidebar.title("메뉴")
 menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 user_setting = ""
@@ -103,6 +105,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
