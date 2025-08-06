@@ -3,8 +3,8 @@ from openai import OpenAI
 import requests
 import json
 
-menu = st.sidebar.selectbox("메뉴", ["홈", "설정", "할 짓 추천"])
 st.sidebar.title("메뉴")
+menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 user_setting = ""
 
 where = "아무데나"
@@ -99,4 +99,5 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":"response"})
+
 
