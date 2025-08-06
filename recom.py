@@ -51,7 +51,7 @@ elif menu == "설정":
     
     mode = st.checkbox("심심이 모드")
     
-    passs = st.button("완료!")
+    passs = st.button("완료(심약자 및 변태를 제외한 모든 일반인에게 추천되지 않다.)")
 
     if passs == True:
         if get == "":
