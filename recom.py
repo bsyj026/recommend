@@ -102,7 +102,8 @@ if menu == '할 짓 추천':
                 if chunk.choices[0].delta.content is not None:
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
-            st.session_state["messages"].append({"role":"assistant", "content":"response"})
+            st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
