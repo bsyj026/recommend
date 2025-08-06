@@ -52,10 +52,10 @@ elif menu == "설정":
     
     mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 일반인에게 추천되지 않는다.)")
     if mode == True:
-        really = st.checkbox("<span style='color:red;'>진심으로?</span>", unsafe_allow_html=True)
+        really = st.checkbox("진심으로?")
 
         if really == True:
-            st.markdown("<span style='color:red;'>큰일 날 수도 있음</span>", unsafe_allow_html=True)
+            st.markdown("<p style='color:red; font-weight:bold;'>⚠ 진심이면 진짜 조심해라.</p>", unsafe_allow_html=True)
         
     passs = st.button("완료")
 
@@ -109,6 +109,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
