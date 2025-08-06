@@ -50,9 +50,9 @@ elif menu == "설정":
     where = st.selectbox("당신의 위치:",["야외","실내"])
     get = st.text_input("당신이 가지고있는 것:")
     
-    mode = st.checkbox("심심이 모드")
+    mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 일반인에게 추천되지 않는다.)")
     
-    passs = st.button("완료(심약자 및 변태를 제외한 모든 일반인에게 추천되지 않는다.)")
+    passs = st.button("완료")
 
     if passs == True:
         if get == "":
@@ -104,6 +104,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
