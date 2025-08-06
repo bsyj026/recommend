@@ -58,11 +58,13 @@ elif menu == "설정":
             user_setting = f"사용자의 위치는 {where}"
         else:
             user_setting = f"사용자의 위치는 {where},사용자가 가지고 있는건 {get}"
-    if mode:
-        user_setting += '싸가지 없게 말해'
+    
 
         st.text("설정이 완료되었습니다!")
         st.text(user_setting)
+        
+    if mode:
+        user_setting += '싸가지 없게 말해'
         st.session_state["user_setting"] = user_setting
 
 if menu == '할 짓 추천':
@@ -101,6 +103,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":"response"})
+
 
 
 
