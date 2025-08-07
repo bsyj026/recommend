@@ -170,3 +170,4 @@ elif menu == "할 짓 추천":
                     msg_placeholder.markdown(response)
 
             st.session_state["messages"].append({"role": "assistant", "content": response})
+
