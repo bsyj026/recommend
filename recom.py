@@ -13,7 +13,7 @@ if "user_setting" not in st.session_state:
     st.session_state["user_setting"] = ''
 
 st.sidebar.title("메뉴")
-menu = st.sidebar.selecbox("", ["홈", "설정", "할 짓 추천"])
+menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 
 where = "야외"
 get = ""
@@ -125,6 +125,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
