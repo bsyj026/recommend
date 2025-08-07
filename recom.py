@@ -10,7 +10,7 @@ menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 user_setting = ""
 
 
-where = "아무데나"
+where = "야외"
 get = ""
 
 upstage_api_key = "up_MrJrannMiFutFLHHuSgG8USjDwzUg"
@@ -120,6 +120,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
