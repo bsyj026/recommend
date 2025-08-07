@@ -69,9 +69,9 @@ elif menu == "설정":
     mode = st.checkbox("심심이 모드 (비속어 포함)", value=st.session_state["mode"])
     really = False
     if mode:
-        really = st.checkbox("진심으로 원함?", value=st.session_state["really"])
+        really = st.checkbox("진심으로 원하시나요?", value=st.session_state["really"])
         if really:
-            st.markdown("<p style='color:red;'>⚠ 조심해, 진심이라면 진짜 각오해.</p>", unsafe_allow_html=True)
+            st.markdown("<p style='color:red;'>⚠ 조심하십시오, 해당 프로그램은 비속어 및 고수위 발언을 포함합니다.</p>", unsafe_allow_html=True)
 
     if st.button("설정 완료"):
         st.session_state["user_location"] = location
@@ -109,7 +109,7 @@ elif menu == "할 짓 추천":
 
     for msg in st.session_state["messages"]:
         if msg["role"] == "system":
-            continue  # system 메시지는 화면에 출력하지 않음
+            continue
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
@@ -145,6 +145,7 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
 
