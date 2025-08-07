@@ -85,12 +85,15 @@ elif menu == "설정":
 if menu == '할 짓 추천':
     st.markdown("<h1 style='font-size:30px;'>ai의 할 짓 추천</h1>", unsafe_allow_html=True)
     setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
-    
-    if "messages" not in st.session_state:
-        st.session_state["messages"] =  [
-            {"role" : "system", "content" : f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로. {setting_prompt}"}
-        ]
 
+    # 이전 설정과 다르면 messages 초기화
+    if ("messages" not in st.session_state) or (st.session_state.get("last_setting") != setting_prompt):
+        st.session_state["messages"] = [
+            {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로. {setting_prompt}"}
+        ]
+        st.session_state["last_setting"] = setting_prompt  # 현재 설정 저장
+
+    # 기존 메시지 렌더링
     for msg in st.session_state["messages"]:
         if msg["role"] == "user":
             with st.chat_message("user"):
@@ -118,4 +121,3 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
-
