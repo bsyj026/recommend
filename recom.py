@@ -46,7 +46,7 @@ if menu == "홈":
         data = {
             "model": "solar-1-mini-chat",
             "messages": [
-                {"role": "user", "content": "할 짓 추천에 대한 한마디만 해줘. 사나이답게."}
+                {"role": "user", "content": "할 짓 추천에 대한 한마디만 해줘. 싸나이답게."}
             ]
         }
         response = requests.post(upstage_url, headers=headers, data=json.dumps(data))
@@ -145,6 +145,7 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
 
