@@ -97,9 +97,9 @@ elif menu == "할 짓 추천":
     current_setting = st.session_state.get("user_setting", "")
 
     if st.session_state["last_setting"] != current_setting:
-        # 기존 대화에서 system 메시지를 제외하고 저장
+        
         old_msgs = [msg for msg in st.session_state["messages"] if msg["role"] != "system"]
-        # 새 system 메시지 + 기존 대화 메시지 합치기
+        
         st.session_state["messages"] = [
             {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4개 이내로. {current_setting}"}
         ] + old_msgs
@@ -145,3 +145,4 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
