@@ -66,13 +66,13 @@ elif menu == "설정":
     location = st.selectbox("당신의 위치는?", ["야외", "실내"], index=["야외", "실내"].index(st.session_state["user_location"]))
     item = st.text_input("가지고 있는 것", value=st.session_state["user_item"])
 
-    mode = st.checkbox("심심이 모드 (비속어 포함)", value=st.session_state["mode"])
+    mode = st.checkbox("그냥 말싸움이 하고 싶을 때를 위한 심심이 모드 (비속어 포함)", value=st.session_state["mode"])
     really = False
     if mode:
         really = st.checkbox("진심으로 원하시나요?", value=st.session_state["really"])
         if really:
             st.markdown("<p style='color:red;'>⚠ 조심하십시오, 해당 프로그램은 비속어 및 고수위 발언을 포함합니다.</p>", unsafe_allow_html=True)
-
+ 
     if st.button("설정 완료"):
         st.session_state["user_location"] = location
         st.session_state["user_item"] = item
@@ -145,4 +145,5 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
