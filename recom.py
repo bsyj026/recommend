@@ -55,7 +55,7 @@ if menu == "홈":
 elif menu == "설정":
     st.header("설정:")
     options = ['야외', '실내']
-    if st.session_state.get("user_location", "야외") == '야외':
+    if st.session_state.get("user_location", "") == '야외':
         where = st.selectbox("당신의 위치", ["야외", "실내"])
     else:
         where = st.selectbox("당신의 위치", options, index = 1)
@@ -117,6 +117,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
