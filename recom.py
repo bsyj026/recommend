@@ -77,7 +77,7 @@ elif menu == "설정":
         st.text("설정이 완료되었습니다!")
         user_setting = f'사용자는 지금 {where}에 있음'
         if get != '':
-            user_state = f'사용자는 지금 {where}에 있고 {get}을 가지고 있음'
+            user_setting = f'사용자는 지금 {where}에 있고 {get}을 가지고 있음'
             st.session_state["user_setting"] = user_setting
         if mode == True:
             user_setting += '싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. 세상에서 제일 개쓰레기처럼. 비꼬는 듯이. 세상 만사에 불만이 있는 씨발년처럼. 비속어를 섞어서'
@@ -119,6 +119,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
