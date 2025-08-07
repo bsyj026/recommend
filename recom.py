@@ -3,6 +3,8 @@ from openai import OpenAI
 import requests
 import json
 
+st.set_page_config(page_title = '할 짓 추천해주는 프로그램', page_icon = "📝")
+
 if "user_location" not in st.session_state:
     st.session_state["user_location"] = '야외'
 
@@ -90,7 +92,6 @@ elif menu == "설정":
             st.session_state["user_setting"] = user_setting
 
 if menu == '할 짓 추천':
-    st.set_page_config(page_title = '할 짓 추천해주는 프로그램', page_icon = "📝")
     setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
     
     if "messages" not in st.session_state:
@@ -125,6 +126,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
