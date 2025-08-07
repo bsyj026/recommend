@@ -54,38 +54,31 @@ if menu == "홈":
 
 elif menu == "설정":
     st.header("설정:")
+
     options = ['야외', '실내']
-    
-    # 세션에서 위치값 가져오기, 기본 '야외'
-    where_default = st.session_state.get("user_location", "야외")
-    where_index = 0 if where_default == "야외" else 1
-    
-    where = st.selectbox("당신의 위치", options, index=where_index)
-    
-    # 세션에 저장된 아이템 불러오기
-    user_get = st.text_input("당신이 가지고있는 것", value=st.session_state.get("user_item", ""))
-    
-    mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 욕을 먹기 싫어하는 일반인에게 추천되지 않는다.)")
+
+    where = st.selectbox("당신의 위치", options, key="user_location")
+
+    user_get = st.text_input("당신이 가지고있는 것", value=st.session_state.get("user_item", ""), key="user_item")
+
+    mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 욕을 먹기 싫어하는 일반인에게 추천되지 않는다.)", key="mode")
+
     if mode:
-        really = st.checkbox("진심으로?")
+        really = st.checkbox("진심으로?", key="really")
         if really:
             st.markdown("<p style='color:red; font-weight:bold;'>⚠ 진심이면 진짜 조심해라.</p>", unsafe_allow_html=True)
-    
+
     passs = st.button("완료")
-    
+
     if passs:
-        # 세션에 위치 및 아이템 저장
-        st.session_state["user_location"] = where
-        st.session_state["user_item"] = user_get
-        
-        if user_get != '':
-            user_setting = f'사용자는 지금 {where}에 있고 {user_get}을 가지고 있음'
-        else:
-            user_setting = f'사용자는 지금 {where}에 있음'
-        
-        if mode:
+        user_setting = f'사용자는 지금 {st.session_state.user_location}에 있음'
+
+        if st.session_state.user_item != '':
+            user_setting = f'사용자는 지금 {st.session_state.user_location}에 있고 {st.session_state.user_item}을 가지고 있음'
+
+        if st.session_state.mode:
             user_setting += ' 싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. 세상에서 제일 개쓰레기처럼. 비꼬는 듯이. 세상 만사에 불만이 있는 씨발년처럼. 비속어를 섞어서'
-        
+
         st.session_state["user_setting"] = user_setting
         st.text("설정이 완료되었습니다!")
         
@@ -125,3 +118,4 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
