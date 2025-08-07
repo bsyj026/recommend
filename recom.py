@@ -8,8 +8,6 @@ st.set_page_config(page_title = '할 짓 추천해주는 프로그램', page_ico
 if "user_location" not in st.session_state:
     st.session_state["user_location"] = '야외'
 
-if "user_item" not in st.session_state:
-    st.session_state["user_item"] = ''
 
 if "user_setting" not in st.session_state:
     st.session_state["user_setting"] = ''
@@ -62,7 +60,7 @@ elif menu == "설정":
     else:
         where = st.selectbox("당신의 위치", options, index = 1)
         
-    user_get = st.text_input("당신이 가지고있는 것:", value = st.session_state.get("user_item",""))
+    user_get = st.text_input("당신이 가지고있는 것")
     
     mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 욕을 먹기 싫어하는 일반인에게 추천되지 않는다.)")
     if mode == True:
@@ -77,13 +75,10 @@ elif menu == "설정":
         if get == "":
             user_setting = f"사용자의 위치는 {where}"
             st.session_state["user_location"] = where
-            st.session_state["user_item"] = user_get
         else:
             user_setting = f"사용자의 위치는 {where}이고, 사용자가 가지고 있는건 {get}이다."
             st.session_state["user_location"] = where
-            st.session_state["user_item"] = user_get
     
-
         st.text("설정이 완료되었습니다!")
         st.text(user_setting)
         
@@ -126,6 +121,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
