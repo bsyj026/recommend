@@ -44,7 +44,7 @@ if menu == "홈":
 
     try:
         data = {
-            "model": "solar-2pro",
+            "model": "solar-pro2",
             "messages": [
                 {"role": "user", "content": "할 짓 추천에 대한 한마디만 해줘. 싸나이답게."}
             ]
@@ -145,6 +145,7 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
 
