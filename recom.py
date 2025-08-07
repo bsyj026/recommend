@@ -68,7 +68,7 @@ elif menu == "설정":
 
     options = ['야외', '실내']
 
-    # 기본값 지정해서 이전에 설정한 값 유지
+    # 이전 설정값 불러와 기본값으로 세팅
     where = st.selectbox(
         "당신의 위치",
         options,
@@ -88,7 +88,7 @@ elif menu == "설정":
         key="mode"
     )
 
-    # mode가 꺼지면 really도 자동 해제
+    # mode 꺼지면 really도 자동 해제
     if not mode:
         st.session_state["really"] = False
 
@@ -104,16 +104,16 @@ elif menu == "설정":
                 unsafe_allow_html=True
             )
 
-    passs = st.button("완료")
+    complete = st.button("완료")
 
-    if passs:
-        # 세션 상태에 저장
+    if complete:
+        # 세션에 설정값 저장
         st.session_state["user_location"] = where
         st.session_state["user_item"] = user_get
         st.session_state["mode"] = mode
         st.session_state["really"] = st.session_state.get("really", False)
 
-        # 설정 텍스트 생성
+        # 사용자 설정 텍스트 생성
         user_setting = f'사용자는 지금 {where}에 있음'
         if user_get != '':
             user_setting = f'사용자는 지금 {where}에 있고 {user_get}을 가지고 있음'
@@ -133,14 +133,14 @@ elif menu == "할 짓 추천":
 
     setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
 
-    # 설정이 바뀌었으면 messages 초기화
+    # 설정이 바뀌었으면 메시지 초기화
     if (not st.session_state["messages"]) or (st.session_state.get("last_setting", "") != setting_prompt):
         st.session_state["messages"] = [
             {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로. {setting_prompt}"}
         ]
         st.session_state["last_setting"] = setting_prompt
 
-    # 대화 메시지 출력
+    # 대화 내역 표시
     for msg in st.session_state["messages"]:
         if msg["role"] == "user":
             with st.chat_message("user"):
@@ -149,7 +149,7 @@ elif menu == "할 짓 추천":
             with st.chat_message("assistant"):
                 st.markdown(msg["content"])
 
-    # 유저 입력 받기
+    # 사용자 입력 받기
     if prompt := st.chat_input("또 다른 정보가 있다면 알려주세요!"):
         st.session_state["messages"].append({"role": "user", "content": prompt})
         with st.chat_message("user"):
