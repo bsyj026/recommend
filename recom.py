@@ -3,10 +3,8 @@ from openai import OpenAI
 import requests
 import json
 
-# --- 페이지 기본 설정 ---
 st.set_page_config(page_title='할 짓 추천 프로그램', page_icon="📝")
 
-# --- 세션 상태 초기화 ---
 if "user_location" not in st.session_state:
     st.session_state["user_location"] = "야외"
 if "user_item" not in st.session_state:
@@ -22,7 +20,6 @@ if "messages" not in st.session_state:
 if "last_setting" not in st.session_state:
     st.session_state["last_setting"] = ""
 
-# --- API 키 및 설정 ---
 upstage_api_key = "up_MrJrannMiFutFLHHuSgG8USjDwzUg"
 openai_key = "up_AlbN4eJLf4b2FqokC3EGdny85uxhZ"
 upstage_url = "https://api.upstage.ai/v1/chat/completions"
@@ -37,11 +34,9 @@ client = OpenAI(
     base_url="https://api.upstage.ai/v1"
 )
 
-# --- 사이드바 메뉴 ---
 st.sidebar.title("메뉴")
 menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 
-# --- 홈 메뉴 ---
 if menu == "홈":
     st.header("홈 페이지")
     st.markdown("---")
@@ -65,7 +60,6 @@ if menu == "홈":
 
     st.markdown("---")
 
-# --- 설정 메뉴 ---
 elif menu == "설정":
     st.header("설정")
 
@@ -80,13 +74,11 @@ elif menu == "설정":
             st.markdown("<p style='color:red;'>⚠ 조심해, 진심이라면 진짜 각오해.</p>", unsafe_allow_html=True)
 
     if st.button("설정 완료"):
-        # 설정 저장
         st.session_state["user_location"] = location
         st.session_state["user_item"] = item
         st.session_state["mode"] = mode
         st.session_state["really"] = really
 
-        # 설정 프롬프트 구성
         setting_text = f"사용자는 지금 {location}에 있음"
         if item:
             setting_text += f" 그리고 {item}을(를) 가지고 있음"
@@ -99,14 +91,11 @@ elif menu == "설정":
         st.session_state["user_setting"] = setting_text
         st.success("설정이 완료되었습니다!")
 
-# --- 할 짓 추천 메뉴 ---
 elif menu == "할 짓 추천":
     st.subheader("AI의 할 짓 추천")
 
     current_setting = st.session_state.get("user_setting", "")
 
-    # 설정 변경 시 messages 초기화
-    # 설정 변경 시 system 메시지만 업데이트 (기존 대화 유지)
     if st.session_state["last_setting"] != current_setting:
         # 기존 대화에서 system 메시지를 제외하고 저장
         old_msgs = [msg for msg in st.session_state["messages"] if msg["role"] != "system"]
@@ -118,7 +107,6 @@ elif menu == "할 짓 추천":
         st.session_state["last_setting"] = current_setting
 
 
-    # 이전 대화 출력
     for msg in st.session_state["messages"]:
         if msg["role"] == "system":
             continue  # system 메시지는 화면에 출력하지 않음
@@ -126,7 +114,6 @@ elif menu == "할 짓 추천":
             st.markdown(msg["content"])
 
 
-    # 사용자 입력
     user_input = st.chat_input("또 다른 정보가 있다면 알려주세요!")
     if user_input:
         st.session_state["messages"].append({"role": "user", "content": user_input})
@@ -158,5 +145,6 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
