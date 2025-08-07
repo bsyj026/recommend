@@ -114,8 +114,11 @@ elif menu == "할 짓 추천":
 
     # 이전 대화 출력
     for msg in st.session_state["messages"]:
+        if msg["role"] == "system":
+            continue  # system 메시지는 화면에 출력하지 않음
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
+
 
     # 사용자 입력
     user_input = st.chat_input("또 다른 정보가 있다면 알려주세요!")
@@ -149,3 +152,4 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
