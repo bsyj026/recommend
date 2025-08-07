@@ -86,7 +86,7 @@ elif menu == "설정":
             st.session_state["user_location"] = where
 
 if menu == '할 짓 추천':
-    st.markdown("<h1 style='font-size:50px;'>큰 제목</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='font-size:30px;'>ai의 할 짓 추천</h1>", unsafe_allow_html=True)
     setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
     
     if "messages" not in st.session_state:
@@ -121,6 +121,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
