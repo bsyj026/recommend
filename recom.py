@@ -3,27 +3,29 @@ from openai import OpenAI
 import requests
 import json
 
-st.set_page_config(page_title='할 짓 추천해주는 프로그램', page_icon="📝")
+# --- 페이지 기본 설정 ---
+st.set_page_config(page_title='할 짓 추천 프로그램', page_icon="📝")
 
-# --- 초기 세션 상태 설정 ---
+# --- 세션 상태 초기화 ---
 if "user_location" not in st.session_state:
-    st.session_state["user_location"] = '야외'
+    st.session_state["user_location"] = "야외"
 if "user_item" not in st.session_state:
-    st.session_state["user_item"] = ''
+    st.session_state["user_item"] = ""
 if "mode" not in st.session_state:
     st.session_state["mode"] = False
 if "really" not in st.session_state:
     st.session_state["really"] = False
 if "user_setting" not in st.session_state:
-    st.session_state["user_setting"] = ''
+    st.session_state["user_setting"] = ""
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 if "last_setting" not in st.session_state:
     st.session_state["last_setting"] = ""
 
-# --- API 키 및 URL 설정 ---
+# --- API 키 및 설정 ---
 upstage_api_key = "up_MrJrannMiFutFLHHuSgG8USjDwzUg"
-url = "https://api.upstage.ai/v1/chat/completions"
+openai_key = "up_AlbN4eJLf4b2FqokC3EGdny85uxhZ"
+upstage_url = "https://api.upstage.ai/v1/chat/completions"
 
 headers = {
     "Authorization": f"Bearer {upstage_api_key}",
@@ -31,7 +33,7 @@ headers = {
 }
 
 client = OpenAI(
-    api_key="up_AlbN4eJLf4b2FqokC3EGdny85uxhZ",
+    api_key=openai_key,
     base_url="https://api.upstage.ai/v1"
 )
 
@@ -42,134 +44,108 @@ menu = st.sidebar.selectbox("", ["홈", "설정", "할 짓 추천"])
 # --- 홈 메뉴 ---
 if menu == "홈":
     st.header("홈 페이지")
-    st.markdown('---')
-    st.markdown("ai의 한마디")
+    st.markdown("---")
+    st.markdown("AI의 한마디:")
 
-    data = {
-        "model": "solar-1-mini-chat",
-        "messages": [
-            {"role": "user", "content": "할 짓 추천에 대한 사실에 한마디만 해줘 사나이같이!"}
-        ]
-    }
+    try:
+        data = {
+            "model": "solar-1-mini-chat",
+            "messages": [
+                {"role": "user", "content": "할 짓 추천에 대한 한마디만 해줘. 사나이답게."}
+            ]
+        }
+        response = requests.post(upstage_url, headers=headers, data=json.dumps(data))
+        if response.status_code == 200:
+            result = response.json()
+            st.success(result['choices'][0]['message']['content'])
+        else:
+            st.error("AI 호출 실패: 응답 코드 " + str(response.status_code))
+    except Exception as e:
+        st.error(f"API 요청 중 오류 발생: {e}")
 
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-
-    if response.status_code == 200:
-        result = response.json()
-        st.markdown(f"**{result['choices'][0]['message']['content']}**")
-    else:
-        st.error(f"Error: {response.status_code}, {response.text}")
-
-    st.markdown('---')
+    st.markdown("---")
 
 # --- 설정 메뉴 ---
 elif menu == "설정":
-    st.header("설정:")
+    st.header("설정")
 
-    options = ['야외', '실내']
+    location = st.selectbox("당신의 위치는?", ["야외", "실내"], index=["야외", "실내"].index(st.session_state["user_location"]))
+    item = st.text_input("가지고 있는 것", value=st.session_state["user_item"])
 
-    where = st.selectbox(
-        "당신의 위치",
-        options,
-        index=options.index(st.session_state.get("user_location", "야외")),
-        key="user_location"
-    )
-
-    user_get = st.text_input(
-        "당신이 가지고있는 것",
-        value=st.session_state.get("user_item", ""),
-        key="user_item"
-    )
-
-    mode = st.checkbox(
-        "심심이 모드(심약자 및 변태를 제외한 모든 욕을 먹기 싫어하는 일반인에게 추천되지 않는다.)",
-        value=st.session_state.get("mode", False),
-        key="mode"
-    )
-
-    if not mode:
-        st.session_state["really"] = False
-
+    mode = st.checkbox("심심이 모드 (비속어 포함)", value=st.session_state["mode"])
+    really = False
     if mode:
-        really = st.checkbox(
-            "진심으로?",
-            value=st.session_state.get("really", False),
-            key="really"
-        )
+        really = st.checkbox("진심으로 원함?", value=st.session_state["really"])
         if really:
-            st.markdown(
-                "<p style='color:red; font-weight:bold;'>⚠ 진심이면 진짜 조심해라.</p>",
-                unsafe_allow_html=True
-            )
+            st.markdown("<p style='color:red;'>⚠ 조심해, 진심이라면 진짜 각오해.</p>", unsafe_allow_html=True)
 
-    complete = st.button("완료")
-
-    if complete:
-        # 세션에 저장
-        st.session_state["user_location"] = where
-        st.session_state["user_item"] = user_get
+    if st.button("설정 완료"):
+        # 설정 저장
+        st.session_state["user_location"] = location
+        st.session_state["user_item"] = item
         st.session_state["mode"] = mode
-        st.session_state["really"] = st.session_state.get("really", False)
+        st.session_state["really"] = really
 
-        # 설정 텍스트 생성
-        user_setting = f'사용자는 지금 {where}에 있음'
-        if user_get != '':
-            user_setting = f'사용자는 지금 {where}에 있고 {user_get}을 가지고 있음'
-
+        # 설정 프롬프트 구성
+        setting_text = f"사용자는 지금 {location}에 있음"
+        if item:
+            setting_text += f" 그리고 {item}을(를) 가지고 있음"
         if mode:
-            user_setting += (
-                ' 싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. '
-                '세상에서 제일 개쓰레기처럼. 비꼬는 듯이. 세상 만사에 불만이 있는 씨발년처럼. 비속어를 섞어서'
+            setting_text += (
+                " 싸가지 없게 말해. 인성은 바닥이고, 국밥 말아먹은 듯한 태도로. "
+                "비속어 섞고, 꼽주듯이 말해. 세상에 불만 많은 찌질이처럼 말해줘."
             )
 
-        st.session_state["user_setting"] = user_setting
+        st.session_state["user_setting"] = setting_text
         st.success("설정이 완료되었습니다!")
 
 # --- 할 짓 추천 메뉴 ---
 elif menu == "할 짓 추천":
-    st.markdown("<h1 style='font-size:30px;'>ai의 할 짓 추천</h1>", unsafe_allow_html=True)
+    st.subheader("AI의 할 짓 추천")
 
-    setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
+    current_setting = st.session_state.get("user_setting", "")
 
-    # 설정이 바뀌면 메시지 초기화
-    if (not st.session_state["messages"]) or (st.session_state.get("last_setting", "") != setting_prompt):
+    # 설정 변경 시 messages 초기화
+    if not st.session_state["messages"] or st.session_state["last_setting"] != current_setting:
         st.session_state["messages"] = [
-            {
-                "role": "system",
-                "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로. {setting_prompt}"
-            }
+            {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4개 이내로. {current_setting}"}
         ]
-        st.session_state["last_setting"] = setting_prompt
+        st.session_state["last_setting"] = current_setting
 
     # 이전 대화 출력
     for msg in st.session_state["messages"]:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
-    # 유저 입력
-    if prompt := st.chat_input("또 다른 정보가 있다면 알려주세요!"):
-        st.session_state["messages"].append({"role": "user", "content": prompt})
+    # 사용자 입력
+    user_input = st.chat_input("또 다른 정보가 있다면 알려주세요!")
+    if user_input:
+        st.session_state["messages"].append({"role": "user", "content": user_input})
+
         with st.chat_message("user"):
-            st.markdown(prompt)
+            st.markdown(user_input)
 
         with st.chat_message("assistant"):
-            response = ""
-            msg_placeholder = st.empty()
+            response_text = ""
+            placeholder = st.empty()
 
             try:
                 stream = client.chat.completions.create(
                     model="solar-pro2",
                     messages=st.session_state["messages"],
-                    stream=True,
+                    stream=True
                 )
 
                 for chunk in stream:
                     if chunk.choices[0].delta.content:
-                        response += chunk.choices[0].delta.content
-                        msg_placeholder.text(response)  # markdown 대신 text로 안전하게
+                        response_text += chunk.choices[0].delta.content
+                        placeholder.markdown(response_text)
 
             except Exception as e:
-                st.error(f"API 오류 발생: {e}")
-                response = "죄송합니다. 응답 중 문제가 발생했습니다."
+                response_text = "⚠ 오류 발생: " + str(e)
+                st.error(response_text)
 
-            st.session_state["messages"].append({"role": "assistant", "content": response})
+            st.session_state["messages"].append({
+                "role": "assistant",
+                "content": response_text
+            })
