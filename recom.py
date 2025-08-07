@@ -57,14 +57,14 @@ elif menu == "설정":
 
     options = ['야외', '실내']
 
-    where = st.selectbox("당신의 위치", options, key="user_location")
+    where = st.selectbox("당신의 위치", options, index=options.index(st.session_state.get("user_location", "야외")), key="user_location")
 
     user_get = st.text_input("당신이 가지고있는 것", value=st.session_state.get("user_item", ""), key="user_item")
 
-    mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 욕을 먹기 싫어하는 일반인에게 추천되지 않는다.)", key="mode")
+    mode = st.checkbox("심심이 모드(심약자 및 변태를 제외한 모든 욕을 먹기 싫어하는 일반인에게 추천되지 않는다.)", value=st.session_state.get("mode", False), key="mode")
 
     if mode:
-        really = st.checkbox("진심으로?", key="really")
+        really = st.checkbox("진심으로?", value=st.session_state.get("really", False), key="really")
         if really:
             st.markdown("<p style='color:red; font-weight:bold;'>⚠ 진심이면 진짜 조심해라.</p>", unsafe_allow_html=True)
 
@@ -74,6 +74,7 @@ elif menu == "설정":
         st.session_state["user_location"] = where
         st.session_state["user_item"] = user_get
         st.session_state["mode"] = mode
+        st.session_state["really"] = st.session_state.get("really", False)
 
         user_setting = f'사용자는 지금 {where}에 있음'
         if user_get != '':
@@ -125,4 +126,5 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
