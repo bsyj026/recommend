@@ -70,11 +70,11 @@ elif menu == "설정":
         if get == "":
             user_setting = f"사용자의 위치는 {where}"
             st.session_state["user_location"] = where
-            st.session_state["user_item"] = item
+            st.session_state["user_item"] = get
         else:
             user_setting = f"사용자의 위치는 {where}이고, 사용자가 가지고 있는건 {get}이다."
             st.session_state["user_location"] = where
-            st.session_state["user_item"] = item
+            st.session_state["user_item"] = get
     
 
         st.text("설정이 완료되었습니다!")
@@ -120,6 +120,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
