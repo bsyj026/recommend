@@ -88,6 +88,10 @@ elif menu == "설정":
         key="mode"
     )
 
+    # mode가 꺼지면 really도 자동 해제
+    if not mode:
+        st.session_state["really"] = False
+
     if mode:
         really = st.checkbox(
             "진심으로?",
@@ -130,7 +134,7 @@ elif menu == "할 짓 추천":
     setting_prompt = st.session_state.get("user_setting", "설정 정보 없음")
 
     # 설정이 바뀌었으면 messages 초기화
-    if (not st.session_state["messages"]) or (st.session_state.get("last_setting") != setting_prompt):
+    if (not st.session_state["messages"]) or (st.session_state.get("last_setting", "") != setting_prompt):
         st.session_state["messages"] = [
             {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4가지 정도만 해주면 돼. 추천은 무조건적으로 4개 이하로. {setting_prompt}"}
         ]
