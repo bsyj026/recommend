@@ -88,7 +88,6 @@ elif menu == "설정":
         
         st.session_state["user_setting"] = user_setting
         st.text("설정이 완료되었습니다!")
-        st.text(user_setting)
         
 if menu == '할 짓 추천':
     st.markdown("<h1 style='font-size:30px;'>ai의 할 짓 추천</h1>", unsafe_allow_html=True)
@@ -126,32 +125,3 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
