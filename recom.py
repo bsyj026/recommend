@@ -84,7 +84,7 @@ elif menu == "설정":
             setting_text += f" 그리고 {item}을(를) 가지고 있음"
         if mode:
             setting_text += (
-                " 싸가지 없게 말해. 인성은 바닥이고, 국밥 말아먹은 듯한 태도로. "
+                " 싸가지 없게 말해. 인성은 바닥이고, 세상에서 니가 제일 쓰레기인 듯한 태도로. "
                 "비속어 섞고, 꼽주듯이 말해. 세상에 불만 많은 찌질이처럼 말해줘."
             )
 
@@ -145,6 +145,7 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
 
