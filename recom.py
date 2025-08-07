@@ -69,9 +69,10 @@ elif menu == "설정":
     mode = st.checkbox("그냥 말싸움이 하고 싶을 때를 위한 심심이 모드 (비속어 포함)", value=st.session_state["mode"])
     really = False
     if mode:
-        really = st.checkbox("진심으로 원하시나요?", value=st.session_state["really"])
-        if really:
-            st.markdown("<p style='color:red;'>⚠ 조심하십시오, 해당 프로그램은 비속어 및 고수위 발언을 포함합니다.</p>", unsafe_allow_html=True)
+        st.write("일시적으로 폐쇄된 프로그램입니다.")
+        # really = st.checkbox("진심으로 원하시나요?", value=st.session_state["really"])
+        # if really:
+        #    st.markdown("<p style='color:red;'>⚠ 조심하십시오, 해당 프로그램은 비속어 및 고수위 발언을 포함합니다.</p>", unsafe_allow_html=True)
  
     if st.button("설정 완료"):
         st.session_state["user_location"] = location
@@ -145,5 +146,6 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
