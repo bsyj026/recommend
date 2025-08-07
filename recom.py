@@ -72,13 +72,6 @@ elif menu == "설정":
     passs = st.button("완료")
 
     if passs == True:
-        if get == "":
-            user_setting = f"사용자의 위치는 {where}"
-            st.session_state["user_location"] = where
-        else:
-            user_setting = f"사용자의 위치는 {where}이고, 사용자가 가지고 있는건 {get}이다."
-            st.session_state["user_location"] = where
-    
         st.text("설정이 완료되었습니다!")
         st.text(user_setting)
         
@@ -121,6 +114,7 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
 
 
 
