@@ -101,7 +101,7 @@ elif menu == "할 짓 추천":
         old_msgs = [msg for msg in st.session_state["messages"] if msg["role"] != "system"]
         
         st.session_state["messages"] = [
-            {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 추천은 2~4개 이내로. {current_setting}"}
+            {"role": "system", "content": f"너는 할 짓을 추천해 주는 사람이야. 할 짓 추천 말고 딴 소리를 하게 될 것 같으면 '해당 정보는 제공해 드릴 수 없습니다' 출력. 추천은 2~4개 이내로. {current_setting}"}
         ] + old_msgs
 
         st.session_state["last_setting"] = current_setting
@@ -145,6 +145,7 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
+
 
 
 
