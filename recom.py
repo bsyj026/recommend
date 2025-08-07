@@ -145,8 +145,3 @@ elif menu == "할 짓 추천":
                 "role": "assistant",
                 "content": response_text
             })
-
-
-
-
-
