@@ -71,16 +71,20 @@ elif menu == "설정":
     passs = st.button("완료")
 
     if passs:
-        user_setting = f'사용자는 지금 {st.session_state.user_location}에 있음'
+        st.session_state["user_location"] = where
+        st.session_state["user_item"] = user_get
+        st.session_state["mode"] = mode
 
-        if st.session_state.user_item != '':
-            user_setting = f'사용자는 지금 {st.session_state.user_location}에 있고 {st.session_state.user_item}을 가지고 있음'
+        user_setting = f'사용자는 지금 {where}에 있음'
+        if user_get != '':
+            user_setting = f'사용자는 지금 {where}에 있고 {user_get}을 가지고 있음'
 
-        if st.session_state.mode:
+        if mode:
             user_setting += ' 싸가지 없게 말해. 무조건 싸가지 없게. 인성을 국밥 말아먹은 듯이. 세상에서 제일 개쓰레기처럼. 비꼬는 듯이. 세상 만사에 불만이 있는 씨발년처럼. 비속어를 섞어서'
 
         st.session_state["user_setting"] = user_setting
         st.text("설정이 완료되었습니다!")
+
         
 if menu == '할 짓 추천':
     st.markdown("<h1 style='font-size:30px;'>ai의 할 짓 추천</h1>", unsafe_allow_html=True)
@@ -121,3 +125,4 @@ if menu == '할 짓 추천':
                     response += chunk.choices[0].delta.content
                     msg_placeholder.markdown(response)
             st.session_state["messages"].append({"role":"assistant", "content":response})
+
